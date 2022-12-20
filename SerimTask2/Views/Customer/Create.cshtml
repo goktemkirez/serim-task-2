@@ -1,0 +1,69 @@
+﻿@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+</head>
+<body>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#btnSend").on("click", function() {
+
+                $("#btnSend").attr("disabled", "true");
+
+                var dataObj = {
+                    Id: 0,
+                    FirstName: ad.value,
+                    LastName: soyad.value,
+                    BirthDate: dogumTarihi.value,
+                    IdentificationNumber: tcNo.value,
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Customer/Create",
+                    data: dataObj,
+                    success: function(response) {
+                        $("#btnSend").removeAttr("disabled");
+                        document.getElementById("validationMessage").innerText = response;
+                        alert(response)
+                        console.log(response)
+                        //window.location = "/Customer/Create";
+                    },
+                    error: function(error) {
+                        $("#btnSend").removeAttr("disabled");
+                        alert("hata")
+                        console.log("hata", error)
+                    }
+
+                });
+            });
+        });
+
+    </script>
+    <div>
+        <label for="ad">Ad:</label>
+        <input type="text" id="ad" class="form-control" placeholder="Ad" />
+        <br />
+        <label for="soyad">Soyad:</label>
+        <input type="text" id="soyad" class="form-control" placeholder="Soyad" />
+        <br />
+        <label for="dogumTarihi">Doğum Tarihi:</label>
+        <input type="date" id="dogumTarihi" class="form-control" placeholder="Doğum Tarihi" />
+        <br />
+        <label for="tcNo">TC:</label>
+        <input type="text" id="tcNo" class="form-control" placeholder="TC No" maxlength="11" />
+        <br />
+        <p id="validationMessage" style="color:red"></p>
+        <br />
+        <input type="button" id="btnSend" class="btn btn-success" value="Ekle" />
+    </div>
+</body>
+</html>
+
